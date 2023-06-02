@@ -35,11 +35,22 @@ client.on("messageCreate", (message) => {
     
     if (msgStarts(["이드","이드야"])) {
         let cmd = koMsg.split("이드")[1]
-        console.log(cmd)
         if(cmd.startsWith("야")) cmd=cmd.substr(1)
         
-        if(cmd=="급식"||msgHas(["급식"]) && msgEnds(["알려줘","뭐야","뭐임","머임","모임","머야","모야"])) sendMeal(message)
+        console.log(cmd)
 
+        if(cmd=="급식"||msgHas(["급식"]) && msgEnds(["알려줘","뭐야","뭐임","머임","모임","머야","모야"])){
+            let timeSub = 0;
+            if(msgHas(["오늘","어제","어저께","내일","모레","그제","그저께"])){
+                console.log("hi")
+                if(koMsg.includes("어제")||koMsg.includes("어저께")) timeSub=24*60*60*1000;
+                else if(koMsg.includes("내일")) timeSub=-24*60*60*1000;
+                else if(koMsg.includes("모레")) timeSub=-2*24*60*60*1000;
+                else if(koMsg.includes("그제")||koMsg.includes("그저께")) timeSub=2*24*60*60*1000;
+            }
+            sendMeal(message,timeSub)
+        }
+        if(cmd=="시간표"){}
     }
 });
 
